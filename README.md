@@ -43,12 +43,12 @@ This project leverages machine learning techniques to detect phishing emails by 
 phishing-detection-tool-using-machine-learning-technique/
 │
 ├── anti-phisher.py              # GUI application for phishing detection
-├── cleaned_data.csv             # Cleaned dataset for training
+├── cleaned_data.zip             # Cleaned dataset for training
 ├── dataset_clean.py             # Script for cleaning the dataset
 ├── ml_model_trainer.py          # Script for training the machine learning model
 ├── phishing_detection_model.pkl  # Trained Random Forest model
 ├── tfidf_vectorizer.pkl         # Saved TF-IDF vectorizer
-└── dataset/                     # Folder containing raw datasets
+└── dataset.zip/                     # Folder containing raw datasets
     ├── Ling/
     ├── phishing_email/
     └── SpamAssasin/
