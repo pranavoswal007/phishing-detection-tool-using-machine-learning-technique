@@ -1,4 +1,3 @@
-
 # Phishing Detection Tool Using Machine Learning
 
 This project leverages machine learning techniques to detect phishing emails by analyzing their content. The tool employs a Random Forest Classifier trained on a cleaned dataset of emails. The application includes a graphical user interface (GUI) for user-friendly interaction and functionalities to preprocess text, train models, and make predictions.
@@ -43,11 +42,15 @@ This project leverages machine learning techniques to detect phishing emails by 
 phishing-detection-tool-using-machine-learning-technique/
 │
 ├── anti-phisher.py              # GUI application for phishing detection
-├── dataset_clean.py             # Script for cleaning the dataset
 ├── ml_model_trainer.py          # Script for training the machine learning model
 ├── phishing_detection_model.pkl  # Trained Random Forest model
 ├── tfidf_vectorizer.pkl         # Saved TF-IDF vectorizer
+└── dataset/                     # Folder containing raw datasets
 ```
+
+### Data Location
+
+- The cleaned data and dataset folders are hosted on Google Drive. You can access them using the following link: [Cleaned Data and Dataset](https://drive.google.com/drive/folders/1-Lhdx6AEz0JWeV_2OjM658-zLsK2XJBe).
 
 ## Installation
 
@@ -57,7 +60,7 @@ To run this project on your Windows machine, follow these steps:
    ```bash
    git clone https://github.com/aarizkhanshaikh/phishing-detection-tool-using-machine-learning-technique.git
    ```
-   
+
 2. Change the directory to the project folder:
    ```bash
    cd phishing-detection-tool-using-machine-learning-technique
