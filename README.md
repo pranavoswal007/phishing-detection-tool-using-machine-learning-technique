@@ -1,88 +1,85 @@
-Here's a structured GitHub README for your project:
 
----
+# Phishing Detection Tool Using Machine Learning
 
-# Phishing Detection Tool
-
-This project is a Machine Learning-based tool designed to identify phishing emails based on their textual content. By preprocessing email text, vectorizing it, and applying a **Random Forest Classifier**, the tool effectively distinguishes phishing emails from legitimate ones. 
+This project leverages machine learning techniques to detect phishing emails by analyzing their content. The tool employs a Random Forest Classifier trained on a cleaned dataset of emails. The application includes a graphical user interface (GUI) for user-friendly interaction and functionalities to preprocess text, train models, and make predictions.
 
 ## Table of Contents
+
 - [Features](#features)
 - [Technical Details](#technical-details)
-- [Setup and Installation](#setup-and-installation)
-- [How to Run](#how-to-run)
-- [Directory Structure](#directory-structure)
+- [File Structure](#file-structure)
+- [Installation](#installation)
 - [Usage](#usage)
+- [License](#license)
 
 ## Features
-- **Preprocessing**: Removes unwanted characters, HTML tags, and URLs, preparing the text for analysis.
-- **TF-IDF Vectorization**: Converts text into numerical features, capturing the importance of terms.
-- **Phishing Detection Model**: A trained **Random Forest Classifier** that classifies emails as phishing or not phishing based on trained features.
-- **Graphical User Interface (GUI)**: Built with Tkinter, making it user-friendly for analyzing email text.
+
+- **Email Classification**: Classifies emails as phishing or not phishing based on textual analysis.
+- **Data Preprocessing**: Cleans and prepares raw email data for analysis.
+- **Model Training**: Trains a Random Forest Classifier on the cleaned dataset.
+- **GUI Interface**: User-friendly interface for inputting text and displaying results.
+- **Model Persistence**: Saves the trained model and vectorizer for future use.
 
 ## Technical Details
 
-1. **Dataset Cleaning and Preprocessing**:
-   - Uses regular expressions to remove unwanted content, making the dataset suitable for training.
-2. **TF-IDF Vectorizer**:
-   - Utilizes the TF-IDF (Term Frequency-Inverse Document Frequency) method to convert text into numerical values.
-3. **Random Forest Classifier**:
-   - The Random Forest model, a popular machine learning algorithm, is trained to classify email text, based on patterns learned from the training data.
-4. **Model Saving and Loading**:
-   - The trained model and vectorizer are saved as `.pkl` files, allowing quick re-use without re-training.
-5. **GUI for Predictions**:
-   - Built with Tkinter, enabling users to input email text and receive instant phishing detection results.
+1. **Data Cleaning**: 
+   - The script `dataset_clean.py` is responsible for loading the dataset, removing duplicates, and handling missing values. It ensures that the dataset is ready for analysis by normalizing the email body text.
+   
+2. **Text Vectorization**: 
+   - The `TfidfVectorizer` from the scikit-learn library transforms the cleaned text data into numerical format, allowing the machine learning model to process it. This vectorization represents the importance of words in the emails.
 
-## Setup and Installation
+3. **Random Forest Classifier**: 
+   - The `RandomForestClassifier` is used to train the model on the processed dataset. It works by creating multiple decision trees and aggregating their predictions to improve accuracy and robustness.
 
-1. **Clone the repository**:
-    ```bash
-    git clone https://github.com/yourusername/phishing-detection-tool.git
-    cd phishing-detection-tool
-    ```
+4. **Model Training and Prediction**: 
+   - The script `ml_model_trainer.py` handles the training of the model and evaluates its performance. It splits the dataset into training and testing sets, fits the model, and saves the trained model and vectorizer using `joblib`.
 
-2. **Install dependencies**:
-    ```bash
-    pip install -r requirements.txt
-    ```
-   Ensure that `pandas`, `scikit-learn`, `joblib`, `tkinter`, and `re` are installed.
+5. **GUI for Predictions**: 
+   - The `anti-phisher.py` script implements the GUI. It allows users to input email content and displays the prediction results based on the trained model.
 
-3. **Place Model Files**:
-   Ensure `phishing_detection_model.pkl` and `tfidf_vectorizer.pkl` are in the project directory for seamless access.
+## File Structure
 
-## How to Run
+```
+phishing-detection-tool-using-machine-learning-technique/
+│
+├── anti-phisher.py              # GUI application for phishing detection
+├── cleaned_data.csv             # Cleaned dataset for training
+├── dataset_clean.py             # Script for cleaning the dataset
+├── ml_model_trainer.py          # Script for training the machine learning model
+├── phishing_detection_model.pkl  # Trained Random Forest model
+├── tfidf_vectorizer.pkl         # Saved TF-IDF vectorizer
+└── dataset/                     # Folder containing raw datasets
+    ├── Ling/
+    ├── phishing_email/
+    └── SpamAssasin/
+```
 
-### Running on Windows
-1. **Data Preprocessing and Model Training (Script 1 & 2)**:
-   - Open a terminal in the project directory.
-   - Run `data_processing_script.py` to preprocess your dataset.
-   - Run `model_training_script.py` to train and save the model (Note: update the dataset path in the script).
+## Installation
 
+To run this project on your Windows machine, follow these steps:
+
+1. Clone the repository:
    ```bash
-   python data_processing_script.py
-   python model_training_script.py
+   git clone https://github.com/aarizkhanshaikh/phishing-detection-tool-using-machine-learning-technique.git
+   ```
+   
+2. Change the directory to the project folder:
+   ```bash
+   cd phishing-detection-tool-using-machine-learning-technique
    ```
 
-2. **Phishing Detection GUI (Script 3)**:
-   - Run `phishing_detection_gui.py` to open the GUI.
-   - Enter the email text in the provided input field and press "Predict" to receive phishing detection results.
-
+3. Install the required packages using pip:
    ```bash
-   python phishing_detection_gui.py
+   pip install -r requirements.txt
    ```
 
-### Example Use
-   - Input: Email content (text).
-   - Output: Classification as "Phishing" or "Not Phishing."
+## Usage
 
-## Directory Structure
-```
-phishing-detection-tool/
-├── data_processing_script.py        # Script to preprocess and combine data
-├── model_training_script.py         # Script for training the model
-├── phishing_detection_gui.py        # GUI application for phishing detection
-├── phishing_detection_model.pkl     # Saved Random Forest model
-├── tfidf_vectorizer.pkl             # Saved TF-IDF vectorizer
-├── cleaned_data.csv                 # (Optional) Preprocessed dataset
-└── README.md                        # Project readme
-```
+1. Run the GUI application:
+   ```bash
+   python anti-phisher.py
+   ```
+
+2. Input the email text you want to analyze in the provided text area.
+
+3. Click the "Predict" button to get the classification result indicating whether the email is phishing or not.
