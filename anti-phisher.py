@@ -25,14 +25,16 @@ class PhishingDetector:
         threading.Thread(target=self.load_ml_model, daemon=True).start()
 
     def load_ml_model(self):
+        # Simulate loading delay
+        import time
+        time.sleep(3)  # Simulating loading time
+
         # Load your machine learning model and vectorizer here
         # Example:
         # self.model = joblib.load('model_path.pkl')
         # self.tfidf_vectorizer = joblib.load('vectorizer_path.pkl')
-
-        # Simulate loading delay
-        import time
-        time.sleep(3)  # Simulating loading time
+        
+        # Simulate loaded model and vectorizer
         self.model = 'Your ML Model'  # Replace with actual model
         self.tfidf_vectorizer = 'Your TF-IDF Vectorizer'  # Replace with actual vectorizer
 
@@ -150,6 +152,15 @@ class PhishingDetector:
         color = "green" if is_running else "red"
         self.model_status_indicator.create_oval(2, 2, 13, 13, fill=color, outline=color)
 
+    def preprocess_text(self, text):
+        """Preprocess the input text to make it ready for the model."""
+        text = text.lower()
+        text = re.sub(r"http\S+", " ", text)  # remove links
+        text = re.sub(r"\S+@\S+", " ", text)  # remove emails
+        text = re.sub(r"[^a-z\s]", " ", text)  # remove special chars
+        text = re.sub(r"\s+", " ", text).strip()  # remove extra spaces
+        return text
+
     def validate_and_analyze(self):
         text = self.text_input.get("1.0", tk.END).strip()
 
@@ -166,7 +177,7 @@ class PhishingDetector:
                                  "Please avoid special characters or code snippets.")
             return
 
-        self.analyze_text()
+        self.analyze_text(text)
 
     def is_valid_input(self, text):
         if len(text) < 10:
@@ -184,14 +195,15 @@ class PhishingDetector:
 
         return (has_email or has_url or is_text) and not (has_script or has_sql)
 
-    def analyze_text(self):
-        # Here goes the model prediction logic
-        # For demonstration, we'll mock the prediction and probabilities
-        prediction = 'Phishing'  # or 'Legitimate'
-        probabilities = [0.15, 0.85]  # Mocked probabilities for Legitimate and Phishing
-
-        # Update UI based on prediction
-        self.update_phishing_message(prediction, probabilities)
+    def analyze_text(self, text):
+        try:
+            cleaned_text = self.preprocess_text(text)
+            vectorized_text = self.tfidf_vectorizer.transform([cleaned_text])
+            proba = self.model.predict_proba(vectorized_text)[0]
+            prediction = 'Phishing' if proba[1] > 0.6 else 'Legitimate'
+            self.update_phishing_message(prediction, proba)
+        except Exception as e:
+            messagebox.showerror("Error", f"Prediction failed: {str(e)}")
 
     def update_phishing_message(self, prediction, probabilities):
         if prediction == 'Phishing':
@@ -225,17 +237,17 @@ class PhishingDetector:
         self.additional_results_value.config(state=tk.DISABLED)
 
     def create_card(self, parent, title, value):
-        """Create a card-like display for the results."""
+        """Create a simple card layout."""
         card = Frame(parent, bg="#2D2D2D", padx=15, pady=15)
         card.pack(fill="x", padx=10, pady=5)
 
-        title_label = tk.Label(card, text=title,
-                                font=("Consolas", 11), bg="#2D2D2D", fg="#888888")
+        title_label = tk.Label(card, text=title, font=("Consolas", 11),
+                               bg="#2D2D2D", fg="#888888")
         title_label.pack(anchor="w")
 
-        value_label = tk.Label(card, text=value,
-                                font=("Consolas", 16), bg="#2D2D2D", fg="#FFFFFF")
-        value_label.pack(anchor="w", pady=(10, 0))
+        value_label = tk.Label(card, text=value, font=("Consolas", 12),
+                               bg="#2D2D2D", fg="#FFFFFF")
+        value_label.pack(anchor="w")
 
         return value_label
 
